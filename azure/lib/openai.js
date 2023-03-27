@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai";
+const { OpenAIApi, Configuration } = require('openai');
 
 const config = new Configuration({
     organization:process.env.OPEN_AI_ORG,
@@ -7,4 +7,4 @@ const config = new Configuration({
 
 const openai = new OpenAIApi(config);
 
-export default openai;
+module.exports = openai;

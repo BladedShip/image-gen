@@ -4,6 +4,8 @@ import { Poppins } from "next/font/google";
 
 import Header from "@/components/Header";
 import PromptInput from "@/components/PromptInput";
+import ClientProvider from "@/components/ClientProvider";
+import Footer from "@/components/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,9 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Header />
-        <PromptInput />
-        {children}
+        <ClientProvider>
+          <Header />
+          <PromptInput />
+          {children}
+        </ClientProvider>
+        <Footer/>
       </body>
     </html>
   );

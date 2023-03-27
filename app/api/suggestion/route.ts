@@ -1,6 +1,6 @@
 export async function GET(request: Request) {
-// TODO: COnnect to Azure endpoint
-    const response = await fetch('...',{
+
+    const response = await fetch('https://image-gen-bladedship.azurewebsites.net/api/getgptsuggestion',{
         cache:"no-store",
     })
 
