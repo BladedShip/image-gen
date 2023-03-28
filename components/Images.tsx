@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import useSWR from "swr";
 
 import fetchImages from "@/lib/fetchImages";
@@ -45,7 +44,7 @@ function Images({}: Props) {
                 {image.name.split("_").shift()?.toString().split(".").shift()}
               </p>
             </div>
-            <Image
+            <img
               src={image.url}
               alt={image.name}
               width={800}
