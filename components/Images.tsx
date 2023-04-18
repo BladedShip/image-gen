@@ -37,7 +37,7 @@ function Images({}: Props) {
           <div
             key={image.name}
             className={`relative cursor-help  hover:scale-[103%] transition-transform duration-200 ease-in-out 
-            ${i === 0 && "md:col-span-2 md:row-span-2"}`}
+            ${i === 0 && "md:col-span-2 md:row-span-2"} ${i=== 5 && "md:col-span-2 md:row-span-2"}`}
           >
             <div className="absolute flex justify-center items-center w-full h-full bg-white opacity-0 hover:opacity-80 transition-opacity duration-150 ease-in-out z-10">
               <p className="text-center font-light text-[#2c2c2c] text-lg p-5">
