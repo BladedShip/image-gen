@@ -22,7 +22,9 @@ function PromptInput({}: Props) {
     revalidateOnFocus: false,
   });
 
-  const {mutate:updateImages} = useSWR("/api/getImages", fetchImages, { revalidateOnFocus: false })
+  const { mutate: updateImages } = useSWR("/api/getImages", fetchImages, {
+    revalidateOnFocus: false,
+  });
 
   const loading = isLoading || isValidating;
 
@@ -37,7 +39,7 @@ function PromptInput({}: Props) {
 
     const notif = toast.loading(
       'Generating Image for "' + notifPromptMin + '..."'
-    )
+    );
 
     const res = await fetch("/api/generateImage", {
       method: "POST",
@@ -47,16 +49,13 @@ function PromptInput({}: Props) {
       body: JSON.stringify({ prompt: pr }),
     });
     if (res) {
-      toast.success(
-        'Generated Image for "' + notifPromptMin + '"!',
-        {
-          id: notif,
-        });
-    } else{
-
+      toast.success('Generated Image for "' + notifPromptMin + '"!', {
+        id: notif,
+      });
+    } else {
       toast.error("Something went wrong. Please try again.", {
         id: notif,
-      })
+      });
     }
 
     updateImages();
@@ -67,28 +66,37 @@ function PromptInput({}: Props) {
     await submitPrompt();
   };
 
+  const handleTabPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab" && input === "") {
+      e.preventDefault();
+      setInput(suggestion);
+    }
+  };
+
   return (
     <div className="m-10">
       <form
-        className="flex flex-col lg:flex-row shadow-md shadow-black/5"
+        className="flex flex-col lg:flex-row md:space-x-2 space-y-2 md:sapce-y-0"
         onSubmit={handleSubmit}
       >
-        <textarea
+        <input
           value={input}
+          type="text"
           onChange={(e) => setInput(e.target.value)}
           placeholder={
             (loading && "Thinking of a suggestion") ||
             suggestion ||
             "Enter a prompt"
           }
-          className="flex-1 p-4 outline-none rounded-md bg-[#2c2c2c] resize-none min-h-16 lg:min-h-20"
+          onKeyDown={handleTabPress}
+          className="flex-1 p-4 outline-none rounded-xl bg-[#2c2c2c] min-h-16 lg:min-h-20 shadow-md shadow-black/5 border-[#000000]/10 border"
         />
         <button
           type="submit"
           disabled={!input}
           className={`p-4 ${
             input
-              ? "bg-[#fae4f5] text-[#2c2c2c] transition-colors duration-200"
+              ? "bg-[#fae4f5] text-[#2c2c2c] transition-colors duration-200 rounded-xl"
               : "text-gray-400 cursor-not-allowed "
           }`}
         >
@@ -100,19 +108,19 @@ function PromptInput({}: Props) {
             mutate;
           }}
           type="button"
-          className="p-4 bg-[#dbbadd] text-[#2c2c2c] transition-colors duration-200 font-bold disabled:text-gray-400 disabled:bg-gray-500 disabled:cursor-not-allowed"
+          className="rounded-xl p-4 bg-[#dbbadd] text-[#2c2c2c] transition-colors duration-200 font-bold disabled:text-gray-400 disabled:bg-gray-500 disabled:cursor-not-allowed"
         >
           Use Suggestion
         </button>
         <button
           onClick={mutate}
           type="button"
-          className="p-4 bg-[#2c2c2c] text-[#dbbadd] transition-colors duration-200 font-bold disabled:text-gray-400 disabled:bg-gray-500 disabled:cursor-not-allowed"
+          className="rounded-xl p-4 bg-[#2c2c2c] text-[#dbbadd] transition-colors duration-200 font-bold disabled:text-gray-400 disabled:bg-gray-500 disabled:cursor-not-allowed"
         >
           New Suggestion
         </button>
       </form>
-      {input && (
+      {input && suggestion != input && (
         <p className="italic pt-2 pl-2 font-light">
           {" "}
           Suggestion "{" "}
